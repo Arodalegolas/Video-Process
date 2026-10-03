@@ -20,7 +20,7 @@ jobs:
       run: |
         echo "=== Descargando video ==="
         # REEMPLAZA EL LINK DE ABAJO POR EL TUYO
-        wget -O video_original.mp4 "https://cdn02.thehyperx.de/download/1HvYrtlFd"
+        wget -O video_original.mp4 "Pegue aqui el link del video"
 
         echo "=== Conversión a 720p 1000kbps ==="
         ffmpeg -i video_original.mp4 -vf "scale=-2:720" -b:v 1000k -maxrate 1000k -bufsize 2000k -c:a aac -b:a 128k video_720p.mp4 -y
