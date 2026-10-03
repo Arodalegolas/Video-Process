@@ -1,0 +1,33 @@
+name: Procesar Video con FFmpeg
+
+on:
+  workflow_dispatch: # Permite activar el script manualmente con un botón
+
+jobs:
+  convert-video:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Configurar espacio de trabajo
+      uses: actions/checkout@v4
+
+    - name: Instalar FFmpeg
+      run: |
+        sudo apt update
+        sudo apt install ffmpeg wget -y
+
+    - name: Descargar y Convertir Video
+      run: |
+        echo "=== Descargando video ==="
+        # REEMPLAZA EL LINK DE ABAJO POR EL TUYO
+        wget -O video_original.mp4 "https://cdn02.thehyperx.de/download/1HvYrtlFd"
+
+        echo "=== Conversión a 720p 1000kbps ==="
+        ffmpeg -i video_original.mp4 -vf "scale=-2:720" -b:v 1000k -maxrate 1000k -bufsize 2000k -c:a aac -b:a 128k video_720p.mp4 -y
+
+    - name: Guardar video para descargar
+      uses: actions/upload-artifact@v4
+      with:
+        name: video-convertido-720p
+        path: video_720p.mp4
+        retention-days: 3 # El archivo se guardará en GitHub por 3 días
